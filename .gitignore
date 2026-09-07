@@ -3,3 +3,8 @@ dist/
 artifacts/
 submission/
 .env
+.env.*
+!.env.example
+.firecrawl/
+*.log
+PLAN.md

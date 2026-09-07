@@ -56,7 +56,7 @@ Protocol follows the [official 2026 relay documentation](https://js13kgames.com/
 
 ## Networking
 
-Host owns simulation. Guest predicts its endpoint and converges toward snapshots. Input changes send four-bit masks; heartbeats repeat every 150ms. World snapshots run at 15Hz and contain compact arrays with complete recovery state. State correctness takes priority over the GDD's speculative 8–14-byte packet.
+Host owns simulation. Guest predicts its endpoint and converges toward snapshots. Input changes send four-bit masks; heartbeats repeat every 150ms. World snapshots run at 15Hz and contain compact arrays with complete recovery state.
 
 Either disconnect becomes Solo, preserving endpoint color orientation and progression. Explicit closes take over immediately; silent connection loss uses a 1.3-second timeout. Hiding an online tab ends that connection, pauses that tab locally, and lets its partner continue with AI. Runs do not reconnect mid-game. Returning home or finishing ends the network session.
 
@@ -78,7 +78,7 @@ The campaign test accelerates progression by restoring targets through a develop
 
 - Play on physical phones and between genuinely separate networks. Browser mobile emulation is not hardware testing.
 - Tune campaign duration and difficulty from human playtesting (target: 5–7 minutes).
-- Wavedash SDK, leaderboard, and achievement integration is deferred; no platform credentials or confirmed challenge requirements were supplied.
+- Wavedash achievements and leaderboards are not integrated yet.
 
 ## Source map
 
