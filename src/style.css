@@ -179,15 +179,6 @@ footer div {
   display: flex;
   gap: 10px;
 }
-#hint {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 8px;
-  font-size: 9px;
-  letter-spacing: 1px;
-  color: var(--mint);
-}
 footer button,
 [data-sound] {
   display: inline-grid;

@@ -19,8 +19,12 @@ const bundled = await build({
 });
 const js = (
   await minify(bundled.outputFiles[0].text, {
-    compress: { passes: 3 },
-    mangle: true,
+    compress: {
+      passes: Number(process.env.TERSER_PASSES) || 8,
+      unsafe: process.env.TERSER_UNSAFE === "1",
+      toplevel: process.env.TERSER_TOPLEVEL !== "0",
+    },
+    mangle: { toplevel: process.env.TERSER_TOPLEVEL !== "0" },
     format: { comments: false },
   })
 ).code;
@@ -64,12 +68,15 @@ const packer = new Packer(
       action: "eval",
     },
   ],
-  { maxMemoryMB: 128, allowFreeVars: true },
+  {
+    maxMemoryMB: Number(process.env.PACK_MEMORY) || 256,
+    allowFreeVars: true,
+  },
 );
-await packer.optimize(Number(process.env.OPTIMIZE) || 2);
+await packer.optimize(Number(process.env.OPTIMIZE) || 25);
 const { firstLine, secondLine } = packer.makeDecoder();
 const packed =
-  '<!doctype html><meta charset="utf-8"><script>' +
+  '<meta charset="utf-8"><script>' +
   firstLine +
   secondLine +
   "</script>";

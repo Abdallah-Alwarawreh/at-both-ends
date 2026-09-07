@@ -59,7 +59,7 @@ export function showPanel(title, content, items, close = () => {}, kind = "") {
 export function updateSound() {
   for (let b of document.querySelectorAll("[data-sound]")) {
     b.innerHTML =
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/>' +
+      '<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/>' +
       (muted
         ? '<path d="m17 9 5 6m0-6-5 6"/>'
         : '<path d="M17 8q5 4 0 8m3-11q7 7 0 14"/>') +
@@ -112,7 +112,7 @@ export function customize(profile, save) {
       if (key === "charm") {
         b.className = "styleChoice";
         b.innerHTML =
-          '<canvas width="300" height="170" aria-hidden="true"></canvas>' +
+          '<canvas width="300" height="170"></canvas>' +
           value;
       } else {
         b.className = "swatch";

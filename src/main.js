@@ -11,6 +11,7 @@ import { init, render, effects } from "./render.js";
 import { unlock, sound, music } from "./audio.js";
 import { Network } from "./network.js";
 import { cleanProfile } from "./profile.js";
+import { recordStats, submitRun } from "./wavedash.js";
 import {
   buttons,
   showPanel,
@@ -47,12 +48,16 @@ let profile = cleanProfile(saved.profile);
 function save() {
   saved.high = Math.max(saved.high || 0, g.score);
   saved.combo = Math.max(saved.combo || 0, g.bestCombo);
-  saved.spectrums = Math.max(saved.spectrums || 0, g.spectrums);
-  saved.time = Math.max(saved.time || 0, g.tick / 60);
   if (g.status === "won") saved.won = true;
   try {
     localStorage.setItem("both-ends", JSON.stringify(saved));
   } catch {}
+}
+function completeRunStats() {
+  if (g.tutorial) return;
+  saved.colors = (saved.colors || 0) + g.restored;
+  saved.runs = (saved.runs || 0) + 1;
+  saved.totalSpectrums = (saved.totalSpectrums || 0) + g.spectrums;
 }
 const net = new Network({
   profile: () => profile,
@@ -450,13 +455,21 @@ function hud() {
   [...$("spectrum").children].forEach((e, i) =>
     e.classList.toggle("lit", !!(g.spectrum & (1 << i))),
   );
-  $("hint").textContent = net.peer ? "ONLINE" : "";
   $("pause").disabled = !!net.peer;
 }
 function finish() {
   if (shownEnd) return;
   shownEnd = true;
+  completeRunStats();
   save();
+  recordStats({
+    score: saved.high,
+    combo: saved.combo,
+    colors: saved.colors || 0,
+    runs: saved.runs || 0,
+    spectrums: saved.totalSpectrums || 0,
+  });
+  submitRun(g);
   net.state(g);
   net.close();
   $("lesson").hidden = true;

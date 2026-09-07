@@ -29,6 +29,8 @@ Speaker icons toggle sound. Ending panels show score, spectrum count, and time o
 
 The HUD groups chapter progress, collected colors, score, and Harmony. Pause and audio controls sit together at the top-right and adapt to portrait screens. Menus use full-width play/resume actions. Music repeats a 32-step phrase on the audio clock, independent of gameplay frames, with adaptive layers and pause/resume handling.
 
+When hosted by Wavedash, the optional injected SDK adapter initializes without blocking play, records five best/cumulative stats, unlocks five stat-driven milestones, and submits completed-run scores to one numeric, higher-is-better `score` board (`Skybound Score`) with `keepBest: true`. Rankings appear on the Wavedash game page. Standalone builds safely skip this when the SDK is absent. Portal import data and setup notes live in `wavedash/`.
+
 The UI uses mint/lilac accents, raised arcade controls, Impact/Arial Black display type, and Verdana body text. System-font fallbacks preserve offline play and the ZIP budget. Unicorns retain a minimal rounded silhouette with a continuous neck and short mane.
 
 Solo is fully offline. Seven campaign chapters lead to The Grey, an orbiting seven-core boss. Completing the campaign unlocks Endless. Best score, combo, spectrum count, and survival time are saved locally when storage is available.
@@ -41,7 +43,7 @@ Collect seven different colors in any order for Double Rainbow. ROYGBIV order ea
 npm run build
 ```
 
-Outputs `dist/index.html` (self-contained, including CSS and JavaScript) and `dist/at-both-ends.zip`. Terser, build-only internal-name aliases, Roadroller, and Zopfli compress the game; the decoder uses a 128MB memory budget. The build compares packed and plain output, reports actual ZIP bytes, and fails over 13,312 bytes. Roadroller optimization level defaults to 2; `OPTIMIZE=1` speeds up development builds but may exceed the size limit. Readable source and development tools are not included in the ZIP. No runtime libraries, images, fonts, or audio files are fetched.
+Outputs `dist/index.html` (self-contained, including CSS and JavaScript) and `dist/at-both-ends.zip`. Terser, build-only internal-name aliases, Roadroller, and Zopfli compress the game; the packer uses a 256MB build-time memory budget. The build compares packed and plain output, reports actual ZIP bytes, and fails over 13,312 bytes. Roadroller optimization level defaults to 25; `OPTIMIZE=1` speeds up development builds but may exceed the size limit. Readable source and development tools are not included in the ZIP. No runtime libraries, images, fonts, or audio files are fetched.
 
 Production builds default to `wss://relay.js13kgames.com/at-both-ends`. Override the relay base URL if needed:
 
@@ -78,7 +80,7 @@ The campaign test accelerates progression by restoring targets through a develop
 
 - Play on physical phones and between genuinely separate networks. Browser mobile emulation is not hardware testing.
 - Tune campaign duration and difficulty from human playtesting (target: 5–7 minutes).
-- Wavedash achievements and leaderboards are not integrated yet.
+- Import `wavedash/portal-import.json` in Wavedash Developer Portal, create visible board `score` with display name `Skybound Score`, numeric values, higher-is-better sorting, then test on a Wavedash-hosted build. The adapter is present but hosted-platform confirmation remains external.
 
 ## Source map
 

@@ -1,0 +1,41 @@
+{
+  "achievements": [
+    {
+      "identifier": "first",
+      "display_name": "First Light",
+      "description": "Restore your first color.",
+      "stat_requirement": { "stat": "colors", "threshold": 1 }
+    },
+    {
+      "identifier": "double",
+      "display_name": "Double Rainbow",
+      "description": "Complete your first spectrum.",
+      "stat_requirement": { "stat": "spectrums", "threshold": 1 }
+    },
+    {
+      "identifier": "perfect",
+      "display_name": "Perfect Spectrum",
+      "description": "Reach a ten-color combo.",
+      "stat_requirement": { "stat": "combo", "threshold": 10 }
+    },
+    {
+      "identifier": "flow",
+      "display_name": "Flow State",
+      "description": "Score 10,000 points.",
+      "stat_requirement": { "stat": "score", "threshold": 10000 }
+    },
+    {
+      "identifier": "sky",
+      "display_name": "The Sky Is Yours",
+      "description": "Complete a run.",
+      "stat_requirement": { "stat": "runs", "threshold": 1 }
+    }
+  ],
+  "stats": [
+    { "identifier": "score", "display_name": "Best Score" },
+    { "identifier": "combo", "display_name": "Best Combo" },
+    { "identifier": "colors", "display_name": "Colors Restored" },
+    { "identifier": "runs", "display_name": "Runs Completed" },
+    { "identifier": "spectrums", "display_name": "Spectrums Restored" }
+  ]
+}
