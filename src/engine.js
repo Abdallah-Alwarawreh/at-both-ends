@@ -194,26 +194,35 @@ export function aiInput(g, index) {
     a = g.players[1 - index],
     dx = a.x - p.x,
     dy = a.y - p.y;
-  if (Math.hypot(dx, dy) > 610) return direction(dx, dy);
-  let hazard = g.hazards.find((h) => Math.hypot(p.x - h.x, p.y - h.y) < 77);
+  let hazard = g.hazards.find(
+    (h) => Math.hypot(p.x + p.vx * 0.2 - h.x, p.y + p.vy * 0.2 - h.y) < 85,
+  );
   if (hazard) return direction(p.x - hazard.x, p.y - hazard.y);
+  if (Math.hypot(dx, dy) > 610) return direction(dx, dy);
   let best = null,
     cost = Infinity;
   for (let target of g.targets) {
     if (target.done || target.born > g.tick) continue;
-    let t = (target.color + 0.5) / 7;
-    if (index === 0) t = 1 - t;
-    if (t < 0.18) continue;
-    let x = a.x + (target.x - a.x) / t,
-      y = a.y + (target.y - a.y) / t;
-    if (x < 35 || x > 925 || y < 120 || y > 570) continue;
-    let c = Math.hypot(x - p.x, y - p.y) + Math.hypot(x - a.x, y - a.y) * 0.12;
-    if (c < cost) {
-      cost = c;
-      best = { x, y };
+    for (let offset of [0.2, 0.5, 0.8]) {
+      let t = (target.color + offset) / 7;
+      if (index === 0) t = 1 - t;
+      let x = a.x + (target.x - a.x) / t,
+        y = a.y + (target.y - a.y) / t;
+      if (x < 35 || x > 925 || y < 120 || y > 570) continue;
+      let c =
+        Math.hypot(x - p.x, y - p.y) +
+        Math.hypot(x - a.x, y - a.y) * 0.12 -
+        target.charge * 180;
+      for (let h of g.hazards)
+        if (projection(p, { x, y }, h).distance < 85) c += 600;
+      if (c < cost) {
+        cost = c;
+        best = { x, y };
+      }
     }
   }
-  if (best) return direction(best.x - p.x, best.y - p.y, 12);
+  if (best)
+    return direction(best.x - p.x - p.vx * 0.12, best.y - p.y - p.vy * 0.12, 5);
   return direction(
     clamp(a.x + (index ? 280 : -280), 90, 870) - p.x,
     340 + Math.sin(g.tick / 230) * 90 - p.y,
