@@ -411,6 +411,16 @@ fieldset button {
   background: transparent;
   position: relative;
 }
+.styleChoice {
+  padding: 4px;
+}
+.styleChoice canvas {
+  position: static;
+  display: block;
+  width: 80px;
+  height: 45px;
+  opacity: 1 !important;
+}
 .swatch::after {
   content: "";
   display: block;

@@ -75,7 +75,12 @@ export function customize(profile, save) {
   name.oninput = () => {
     profile.name = name.value;
   };
-  const redraw = () => preview(document.getElementById("avatar"), profile);
+  const redraw = () => {
+    preview(document.getElementById("avatar"), profile);
+    document
+      .querySelectorAll("#looks canvas")
+      .forEach((canvas, charm) => preview(canvas, { ...profile, charm }));
+  };
   for (let [key, label, values] of [
     ["coat", "Coat", COATS],
     ["mane", "Mane", COLORS],
@@ -93,8 +98,12 @@ export function customize(profile, save) {
         key === "charm" ? value : label + " " + (i + 1),
       );
       b.setAttribute("aria-pressed", String(profile[key] === i));
-      if (key === "charm") b.textContent = value;
-      else {
+      if (key === "charm") {
+        b.className = "styleChoice";
+        b.innerHTML =
+          '<canvas width="300" height="170" aria-hidden="true"></canvas>' +
+          value;
+      } else {
         b.className = "swatch";
         b.style.setProperty("--swatch", value);
       }
