@@ -51,9 +51,9 @@ function line(x, y, a, b, color, width) {
   ctx.lineTo(a, b);
   ctx.stroke();
 }
-function text(s, x, y, size, color = "#fff4d5") {
+function text(s, x, y, size, color = "#edf8f5") {
   ctx.fillStyle = color;
-  ctx.font = `${size}px Trebuchet MS,Arial`;
+  ctx.font = `${size}px Verdana,Arial`;
   ctx.textAlign = "center";
   ctx.fillText(s, x, y);
 }
@@ -91,41 +91,42 @@ function unicorn(p, color, t, label, look = { coat: 0, mane: 0, charm: 0 }) {
   ctx.moveTo(-23, -3);
   ctx.bezierCurveTo(-48, -20, -37, 25 + Math.sin(t * 3) * 4, -54, 12);
   ctx.stroke();
-  ellipse(-2, 0, 25, 13, coat);
-  ellipse(-5, 6, 16, 5, "#ffffff20");
-  ctx.save();
-  ctx.translate(19, -14);
-  ctx.rotate(-0.4);
-  ellipse(0, 0, 9, 21, coat);
-  ctx.restore();
-  ellipse(27, -28, 13, 10, coat);
-  ellipse(36, -24, 9, 6, coat);
+  // One rounded body/neck silhouette: no intersecting neck ellipses.
+  ctx.fillStyle = coat;
+  ctx.beginPath();
+  ctx.moveTo(-27, 0);
+  ctx.bezierCurveTo(-28, -13, -8, -17, 9, -11);
+  ctx.bezierCurveTo(14, -17, 10, -30, 19, -34);
+  ctx.bezierCurveTo(24, -38, 37, -34, 38, -29);
+  ctx.bezierCurveTo(51, -27, 48, -17, 36, -18);
+  ctx.bezierCurveTo(30, -17, 29, -21, 27, -19);
+  ctx.bezierCurveTo(27, -8, 34, 0, 24, 9);
+  ctx.bezierCurveTo(14, 19, -27, 17, -27, 0);
+  ctx.fill();
   ctx.fillStyle = "#ffe5a4";
   ctx.beginPath();
-  ctx.moveTo(24, -33);
-  ctx.lineTo(30, -58);
+  ctx.moveTo(25, -33);
+  ctx.lineTo(29, -54);
   ctx.lineTo(33, -33);
   ctx.fill();
   line(27, -44, 31, -42, "#c89b59", 1);
   line(28, -49, 30, -48, "#c89b59", 1);
-  ctx.fillStyle = "#ecddc5";
+  ctx.fillStyle = coat;
   ctx.beginPath();
-  ctx.moveTo(14, -31);
-  ctx.lineTo(12, -43);
-  ctx.lineTo(23, -33);
+  ctx.moveTo(16, -31);
+  ctx.lineTo(14, -44);
+  ctx.lineTo(23, -34);
   ctx.fill();
-  for (let i = 0; i < 3; i++) {
-    ctx.strokeStyle = i === 1 ? "#ffffff88" : mane;
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    ctx.moveTo(19 - i * 3, -37);
-    ctx.bezierCurveTo(2 - i * 3, -34, 18 - i * 3, -15, 2 - i * 3, -7);
-    ctx.stroke();
-  }
-  ellipse(31, -30, 2.5, 3, "#132b3b");
-  ellipse(32, -31, 1, 1, "#ffffff");
-  line(29, -33, 27, -35, "#132b3b", 1);
-  ellipse(39, -21, 3, 2, "#efb4ab");
+  ctx.strokeStyle = mane;
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(17, -33);
+  ctx.bezierCurveTo(11, -31, 16, -24, 12, -20);
+  ctx.bezierCurveTo(9, -17, 13, -13, 8, -9);
+  ctx.stroke();
+  ellipse(20, -33, 5, 3, mane);
+  ellipse(34, -27, 1.8, 2.3, "#132b3b");
+  ellipse(43, -21, 2.8, 1.8, "#efb4ab");
   if (look.charm === 1) text("✦", -7, 5, 15, mane);
   if (look.charm === 2) {
     for (let i = 0; i < 5; i++)

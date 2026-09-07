@@ -27,6 +27,8 @@ First Solo play opens a four-step interactive tutorial. Replay it with **How to 
 
 Speaker icons toggle sound. Ending panels show score, spectrum count, and time over a dedicated victory scene. Short or obscured rainbow markers lift onto pointers that connect back to their actual collision positions.
 
+The UI uses mint/lilac accents, raised arcade controls, Impact/Arial Black display type, and Verdana body text. System-font fallbacks preserve offline play and the ZIP budget. Unicorns retain a minimal rounded silhouette with a continuous neck and short mane.
+
 Solo is fully offline. Seven campaign chapters lead to The Grey, an orbiting seven-core boss. Completing the campaign unlocks Endless. Best score, combo, spectrum count, and survival time are saved locally when storage is available.
 
 Collect seven different colors in any order for Double Rainbow. ROYGBIV order earns Perfect Spectrum. Rapid restores build Flow, and closely timed different colors earn Harmony. Black clouds hurt unicorns; the tether passes safely through them.
