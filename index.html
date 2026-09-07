@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1"
+    />
+    <meta name="theme-color" content="#101e2b" />
+    <title>At Both Ends</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas
+      id="game"
+      aria-label="Two unicorns connected by seven colored rainbow sections"
+    ></canvas>
+    <div id="hud">
+      <div><small id="chapter"></small><strong id="objective"></strong></div>
+      <div id="spectrum" aria-label="Collected colors"></div>
+      <div class="score">
+        <small>SCORE</small><strong id="score">000000</strong>
+      </div>
+      <div class="health">
+        <small>HARMONY <span id="healthText">100</span></small
+        ><i><b id="healthBar"></b></i>
+      </div>
+    </div>
+    <div id="toast" role="status"></div>
+    <main id="menu">
+      <h1>AT BOTH<br /><em>ENDS</em><span class="star">✦</span></h1>
+      <p class="tagline">Two unicorns. One rainbow.</p>
+      <div id="actions"></div>
+      <p id="status" role="status"></p>
+    </main>
+    <dialog id="panel" aria-labelledby="panelTitle"></dialog>
+    <aside id="lesson" hidden>
+      <small id="lessonStep"></small>
+      <h2 id="lessonTitle"></h2>
+      <p id="lessonText"></p>
+      <button id="skipLesson">SKIP TUTORIAL</button>
+    </aside>
+    <footer>
+      <span id="hint"></span>
+      <div>
+        <button id="pause" aria-label="Pause game">Ⅱ</button
+        ><button id="mute" data-sound aria-label="Mute sound"></button>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
