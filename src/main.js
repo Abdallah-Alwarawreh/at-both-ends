@@ -92,7 +92,7 @@ const net = new Network({
       confirmed = null;
       countdown = 0;
       paused = false;
-      toast("PARTNER VANISHED INTO THE CLOUDS\nAI HAS THE OTHER END", 5);
+      toast("PARTNER LEFT\nAI TAKES OVER", 5);
     }
   },
 });
@@ -106,6 +106,7 @@ function title() {
   paused = false;
   document.body.classList.remove("playing");
   $("menu").style.display = "";
+  $("actions").className = "homeActions";
   $("menu").querySelector("h1").innerHTML =
     'AT BOTH<br><em>ENDS</em><span class="star">✦</span>';
   $("menu").querySelector(".tagline").innerHTML = "Two unicorns. One rainbow.";
@@ -130,8 +131,9 @@ function title() {
   ]);
 }
 function online() {
+  $("actions").className = "";
   screen = "lobby";
-  $("status").textContent = "Share the other end with a friend.";
+  $("status").textContent = "Play together.";
   buttons([
     [
       "QUICK MATCH",
@@ -190,8 +192,7 @@ function privateRoom() {
   field.placeholder = "ABCD";
   field.setAttribute("aria-label", "Four-letter room code");
   $("actions").insertBefore(field, $("actions").children[1]);
-  $("status").textContent =
-    "Create a room, or enter your friend’s four-letter code.";
+  $("status").textContent = "Create or join a room.";
 }
 function start(
   endless = false,
@@ -204,6 +205,7 @@ function start(
   if (!connected) net.close();
   unlock();
   g = createGame(seed, endless);
+  music(g, true, true);
   local = role;
   g.profiles = [
     { name: "Nimbus", coat: 1, mane: 6, charm: 0 },
@@ -221,7 +223,6 @@ function start(
   keys.clear();
   document.body.classList.add("playing");
   $("menu").style.display = "none";
-  $("pause").textContent = "Ⅱ";
   $("pause").disabled = connected;
   lesson = -1;
   $("lesson").hidden = true;
@@ -236,15 +237,15 @@ function setLesson(stage) {
   lesson = stage;
   $("lesson").hidden = false;
   const copy = [
-    ["Move your end", "WASD / arrows, or touch and drag."],
-    ["Red needs red", "Move the red section onto the red core. Hold it there."],
+    ["Move your end", "WASD / arrows · touch & drag"],
+    ["Red needs red", "Hold the red section on the red core."],
     [
       "Now find blue",
-      "Your partner helps. Rotate the line until blue touches blue.",
+      "Rotate the rainbow. Match blue to blue.",
     ],
     [
-      "Bring the colors together",
-      "Restore all three. Seven different colors unlock Double Rainbow.",
+      "Restore all three",
+      "Seven colors unlock Double Rainbow.",
     ],
   ][stage];
   $("lessonStep").textContent = stage + 1 + " / 4";
@@ -300,7 +301,7 @@ function processEvents(events) {
         e.wave === 7 && !g.endless ? "THE GREY" : NAMES[e.wave % 7] + " SKY",
         2,
       );
-    if (e.type === "clear") toast("A LITTLE MORE COLOR", 1.4);
+    if (e.type === "clear") toast("WAVE CLEAR", 1.4);
   }
 }
 function togglePause() {
@@ -310,13 +311,14 @@ function togglePause() {
     return;
   }
   paused = true;
+  music(g, false);
   input = 0;
   keys.clear();
   touch = null;
   net.update(0);
   showPanel(
     "Paused",
-    '<p>WASD / arrows · touch & drag</p><button data-sound aria-label="Mute sound"></button>',
+    "<p>WASD / arrows · touch & drag</p>",
     [
       ["RESUME", closePanel, true],
       ["RESTART", () => start(g.endless)],
@@ -411,6 +413,7 @@ addEventListener("blur", () => {
   readInput();
 });
 document.addEventListener("visibilitychange", () => {
+  if (document.hidden) music(null, false);
   keys.clear();
   touch = null;
   readInput();
@@ -438,6 +441,11 @@ function hud() {
   $("score").textContent = String(g.score).padStart(6, "0");
   $("healthText").textContent = Math.ceil(g.health);
   $("healthBar").style.width = g.health + "%";
+  $("progress").textContent = g.tutorial
+    ? "TRAINING"
+    : count + " / " + g.targets.length + " RESTORED";
+  $("spectrumCount").textContent =
+    g.spectrum.toString(2).replaceAll("0", "").length + " / 7";
   [...$("spectrum").children].forEach((e, i) =>
     e.classList.toggle("lit", !!(g.spectrum & (1 << i))),
   );
@@ -482,7 +490,6 @@ function frame(now) {
     while (acc >= DT) {
       if (net.peer && local === 1) {
         move(g.players[1], input, g.players[0]);
-        music(g);
         if (confirmed) {
           for (let i = 0; i < 2; i++) {
             let p = g.players[i],
@@ -513,7 +520,6 @@ function frame(now) {
           else setLesson(lesson + 1);
         }
         processEvents(g.events);
-        music(g);
       }
       acc -= DT;
     }
@@ -523,6 +529,7 @@ function frame(now) {
       net.state(g);
     }
   } else acc = 0;
+  music(screen === "play" ? g : null, !paused && !document.hidden);
   if (waiting) {
     $("toast").textContent =
       "UNICORN FOUND!\n" + Math.ceil((countdown - now) / 1000);

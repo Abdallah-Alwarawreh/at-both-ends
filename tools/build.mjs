@@ -3,6 +3,7 @@ import { minify } from "terser";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { deflateRawSync } from "node:zlib";
 import { Packer } from "roadroller";
+import { deflateAsync } from "@gfx/zopfli";
 const bundled = await build({
   entryPoints: ["src/main.js"],
   bundle: true,
@@ -27,7 +28,7 @@ const css = (
     minify: true,
   })
 ).code;
-const html = (await readFile("index.html", "utf8"))
+let html = (await readFile("index.html", "utf8"))
   .replace(
     /<link\s+rel="stylesheet"\s+href="\/src\/style.css"\s*\/?>/,
     () => `<style>${css}</style>`,
@@ -37,18 +38,33 @@ const html = (await readFile("index.html", "utf8"))
     () => `<script>${js}</script>`,
   )
   .replace(/>\s+</g, "><");
-const markup = html.replace("<script>" + js + "</script>", "");
+// Short, build-only DOM names; source and public accessibility labels stay readable.
+const names =
+  "chapter objective spectrum collection readouts healthText healthBar progress mission hudLabel spectrumCount toast actions lessonStep lessonTitle lessonText skipLesson panelTitle panelBody panelActions avatar playerName looks nameLabel styleChoice swatch resultsStats resultSound customization homeActions launch primary players targets hazards restored nextWave waveTick lastHit lastColor bestCombo damageUntil baseColor born charge x0 y0 phase localInput remoteProfile peer socket seed tick wave perfect double endless events health face vx vy profiles tutorial opened received quick".split(
+    " ",
+  );
+const aliases = Object.fromEntries(
+  names.map((name, i) => [name, "_" + i.toString(36)]),
+);
+const replaceNames = (text) =>
+  text.replace(
+    new RegExp("\\b(" + names.join("|") + ")\\b", "g"),
+    (name) => aliases[name],
+  );
+html = replaceNames(html);
+const compactJS = replaceNames(js);
+const markup = html.replace("<script>" + compactJS + "</script>", "");
 const packer = new Packer(
   [
     {
-      data: "document.write(" + JSON.stringify(markup) + ");" + js,
+      data: "document.write(" + JSON.stringify(markup) + ");" + compactJS,
       type: "js",
       action: "eval",
     },
   ],
-  { maxMemoryMB: 48 },
+  { maxMemoryMB: 128, allowFreeVars: true },
 );
-await packer.optimize(Number(process.env.OPTIMIZE) || 1);
+await packer.optimize(Number(process.env.OPTIMIZE) || 2);
 const { firstLine, secondLine } = packer.makeDecoder();
 const packed =
   '<!doctype html><meta charset="utf-8"><script>' +
@@ -61,7 +77,7 @@ const output =
     ? packed
     : html;
 const data = Buffer.from(output),
-  compressed = deflateRawSync(data, { level: 9 }),
+  compressed = Buffer.from(await deflateAsync(data, { numiterations: 30 })),
   name = Buffer.from("index.html");
 let crc = 0xffffffff;
 for (let b of data) {

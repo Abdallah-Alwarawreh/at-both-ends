@@ -12,19 +12,26 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <canvas
-      id="game"
-      aria-label="Two unicorns connected by seven colored rainbow sections"
-    ></canvas>
+    <canvas id="game" aria-label="Rainbow arena"></canvas>
     <div id="hud">
-      <div><small id="chapter"></small><strong id="objective"></strong></div>
-      <div id="spectrum" aria-label="Collected colors"></div>
-      <div class="score">
-        <small>SCORE</small><strong id="score">000000</strong>
+      <div class="mission">
+        <small id="chapter"></small><strong id="objective"></strong
+        ><span id="progress"></span>
       </div>
-      <div class="health">
-        <small>HARMONY <span id="healthText">100</span></small
-        ><i><b id="healthBar"></b></i>
+      <div class="collection">
+        <div class="hudLabel">
+          <small>SPECTRUM</small><small id="spectrumCount">0 / 7</small>
+        </div>
+        <div id="spectrum" aria-label="Collected colors"></div>
+      </div>
+      <div class="readouts">
+        <div class="score">
+          <small>SCORE</small><strong id="score">000000</strong>
+        </div>
+        <div class="health">
+          <small>HARMONY <span id="healthText">100</span></small
+          ><i><b id="healthBar"></b></i>
+        </div>
       </div>
     </div>
     <div id="toast" role="status"></div>
@@ -44,7 +51,10 @@
     <footer>
       <span id="hint"></span>
       <div>
-        <button id="pause" aria-label="Pause game">Ⅱ</button
+        <button id="pause" aria-label="Pause game">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 6v12M16 6v12" />
+          </svg></button
         ><button id="mute" data-sound aria-label="Mute sound"></button>
       </div>
     </footer>

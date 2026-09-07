@@ -79,14 +79,14 @@ export class Network {
     this.close();
     this.room = room;
     this.quick = quick;
-    this.cb.status("CONNECTING TO THE RAINBOW…");
+    this.cb.status("CONNECTING…");
     let base = typeof __RELAY_URL__ !== "undefined" ? __RELAY_URL__ : "";
     if (
       !base &&
       location.hostname !== "localhost" &&
       location.hostname !== "127.0.0.1"
     ) {
-      this.cb.status("Online relay not configured. Solo is ready.");
+      this.cb.status("No online relay. Solo is ready.");
       return;
     }
     base ||= `ws://${location.host}/relay`;
@@ -94,11 +94,10 @@ export class Network {
       this.socket = new WebSocket(base.replace(/\/$/, "") + "/" + room);
       this.socket.onmessage = (e) => this.receive(e.data);
       this.socket.onclose = () => this.fallback();
-      this.socket.onerror = () =>
-        this.cb.status("Connection unavailable. Play Solo or try again.");
+      this.socket.onerror = () => this.cb.status("Offline. Solo is ready.");
       this.opened = performance.now();
     } catch {
-      this.cb.status("Connection unavailable. Solo is ready.");
+      this.cb.status("Offline. Solo is ready.");
     }
   }
   send(type, payload, peer = this.peer) {
@@ -115,8 +114,8 @@ export class Network {
       this.id = id;
       this.cb.status(
         this.room[0] === "p"
-          ? "ROOM " + this.room.slice(1) + " · WAITING FOR A UNICORN"
-          : "LOOKING FOR ANOTHER UNICORN…",
+          ? "ROOM " + this.room.slice(1) + " · WAITING…"
+          : "FINDING A PARTNER…",
       );
       return;
     }
@@ -161,7 +160,7 @@ export class Network {
       if (this.quick && n < 8) this.connect("q" + n, true);
       else {
         this.close();
-        this.cb.status("Room full. Try another room or Solo.");
+        this.cb.status("Room full. Try another.");
       }
       return;
     }
@@ -195,7 +194,7 @@ export class Network {
       }
       this.send("I", this.localInput || 0);
     } else if (now - this.opened > 8000)
-      this.cb.status("NO PARTNER YET · PLAY SOLO ANYTIME");
+      this.cb.status("WAITING · SOLO IS READY");
   }
   update(mask) {
     this.localInput = mask;
@@ -208,7 +207,7 @@ export class Network {
     let active = this.role >= 0 && this.peer;
     this.close();
     if (active) this.cb.disconnect();
-    else this.cb.status("Connection closed. Solo is ready.");
+    else this.cb.status("Offline. Solo is ready.");
   }
   close() {
     if (this.socket) {

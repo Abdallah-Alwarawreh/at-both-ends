@@ -13,7 +13,11 @@ try {
   await p.getByLabel("Name", { exact: true }).fill("Luna");
   await p.getByLabel("Coat 2", { exact: true }).click();
   await p.getByLabel("Mane 5", { exact: true }).click();
-  await p.getByRole("button", { name: "Star", exact: true }).click();
+  for (const name of ["Star", "Flower", "Moon", "Bolt", "Heart"]) {
+    const option = p.getByRole("button", { name, exact: true });
+    await option.click();
+    assert.equal(await option.getAttribute("aria-pressed"), "true");
+  }
   await p.screenshot({ path: "artifacts/customization.png" });
   await p.getByRole("button", { name: "DONE" }).click();
   await p.reload();
@@ -23,7 +27,7 @@ try {
     name: "Luna",
     coat: 1,
     mane: 4,
-    charm: 1,
+    charm: 5,
   });
   await p.keyboard.down("ArrowRight");
   await p.waitForTimeout(450);
@@ -126,8 +130,28 @@ try {
   await a.close();
   await b.close();
   await p.goto("http://localhost:5173/dist/index.html");
+  await p.getByRole("button", { name: "YOUR UNICORN" }).click();
+  await p.getByRole("button", { name: "Heart", exact: true }).click();
+  await p.getByRole("button", { name: "DONE" }).click();
+  const solo = await p
+    .getByRole("button", { name: "PLAY SOLO", exact: true })
+    .boundingBox();
+  const online = await p
+    .getByRole("button", { name: "PLAY ONLINE", exact: true })
+    .boundingBox();
+  assert.equal(solo.width, online.width);
+  await p.screenshot({ path: "artifacts/menu-final.png" });
   await p.getByRole("button", { name: "PLAY SOLO", exact: true }).click();
   await p.waitForTimeout(300);
+  const pause = await p
+    .getByRole("button", { name: "Pause game", exact: true })
+    .boundingBox();
+  const audio = await p.locator("footer [data-sound]").boundingBox();
+  assert.equal(pause.width, audio.width);
+  assert.equal(pause.height, audio.height);
+  await p.getByRole("button", { name: "Pause game", exact: true }).click();
+  await p.getByRole("heading", { name: "Paused", exact: true }).waitFor();
+  await p.getByRole("button", { name: "RESUME", exact: true }).click();
   assert.equal(await p.evaluate(() => typeof __game), "undefined");
   await p.screenshot({ path: "artifacts/packed.png" });
   assert.deepEqual(errors, []);

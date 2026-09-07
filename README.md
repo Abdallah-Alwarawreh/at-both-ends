@@ -23,9 +23,11 @@ Open http://localhost:5173. Development serves the game and a local WebSocket re
 - M / sound button: toggle audio.
 - Enter or tap the arena after losing: restart immediately; the results panel also offers replay.
 
-First Solo play opens a four-step interactive tutorial. Replay it with **How to play**, or skip it. **Your unicorn** sets a name, coat, mane color, and plain/star/flower style with a live preview. Preferences persist locally and names/appearance are shared with online partners. Cosmetic colors never change the seven collision sections.
+First Solo play opens a four-step interactive tutorial. Replay it with **How to play**, or skip it. **Your unicorn** sets a name, coat, mane color, and Plain/Star/Flower/Moon/Bolt/Heart style with live previews. Preferences persist locally and names/appearance are shared with online partners. Cosmetic colors never change the seven collision sections.
 
 Speaker icons toggle sound. Ending panels show score, spectrum count, and time over a dedicated victory scene. Short or obscured rainbow markers lift onto pointers that connect back to their actual collision positions.
+
+The HUD groups chapter progress, collected colors, score, and Harmony. Pause and audio controls sit together at the top-right and adapt to portrait screens. Menus use full-width play/resume actions. Music repeats a 32-step phrase on the audio clock, independent of gameplay frames, with adaptive layers and pause/resume handling.
 
 The UI uses mint/lilac accents, raised arcade controls, Impact/Arial Black display type, and Verdana body text. System-font fallbacks preserve offline play and the ZIP budget. Unicorns retain a minimal rounded silhouette with a continuous neck and short mane.
 
@@ -39,7 +41,7 @@ Collect seven different colors in any order for Double Rainbow. ROYGBIV order ea
 npm run build
 ```
 
-Outputs `dist/index.html` (self-contained, including CSS and JavaScript) and `dist/at-both-ends.zip`. Terser and Roadroller compress the game; the decoder uses a 48MB memory budget. The build chooses compressed output only when it beats plain ZIP compression, reports actual ZIP bytes, and fails over 13,312 bytes. Set `OPTIMIZE=2` for a slower compressor search. Readable source and development tools are not included in the ZIP. No runtime libraries, images, fonts, or audio files are fetched.
+Outputs `dist/index.html` (self-contained, including CSS and JavaScript) and `dist/at-both-ends.zip`. Terser, build-only internal-name aliases, Roadroller, and Zopfli compress the game; the decoder uses a 128MB memory budget. The build compares packed and plain output, reports actual ZIP bytes, and fails over 13,312 bytes. Roadroller optimization level defaults to 2; `OPTIMIZE=1` speeds up development builds but may exceed the size limit. Readable source and development tools are not included in the ZIP. No runtime libraries, images, fonts, or audio files are fetched.
 
 For competition online play, set the official game relay base URL before building:
 
@@ -65,6 +67,7 @@ npm test
 npm run test:browser
 npm run test:ui
 node test/network-browser.mjs
+node test/production-browser.mjs
 ```
 
 Browser tests require installed Google Chrome and the development server. They cover keyboard and touch input, pause/mute, offline Solo, campaign/ending/endless/restart, two-player quick match, private rooms, third-player handling, both disconnect directions, refresh, hidden-tab handling, silence timeout, online completion, and the production build. Screenshots are saved under `artifacts/`.

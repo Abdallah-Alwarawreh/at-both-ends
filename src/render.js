@@ -13,7 +13,7 @@ let ctx,
   portrait = false,
   reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mapY = (y) =>
-  portrait ? (170 + ((y - 115) / 460) * (ch - 300)) / scale : y;
+  portrait ? (220 + ((y - 115) / 460) * (ch - 350)) / scale : y;
 function actor(draw, x, y, size = 1) {
   ctx.save();
   ctx.translate(x, y);
@@ -127,7 +127,8 @@ function unicorn(p, color, t, label, look = { coat: 0, mane: 0, charm: 0 }) {
   ellipse(20, -33, 5, 3, mane);
   ellipse(34, -27, 1.8, 2.3, "#132b3b");
   ellipse(43, -21, 2.8, 1.8, "#efb4ab");
-  if (look.charm === 1) text("✦", -7, 5, 15, mane);
+  if (look.charm && look.charm !== 2)
+    text(["", "✦", "", "☾", "ϟ", "♥"][look.charm], -7, 5, 15, mane);
   if (look.charm === 2) {
     for (let i = 0; i < 5; i++)
       ellipse(

@@ -32,34 +32,34 @@ input {
 }
 button {
   cursor: pointer;
-  border: 3px solid var(--ink);
+  border: 2px solid var(--ink);
   background: #34516b;
   color: #edf8f5;
-  min-height: 46px;
-  padding: 12px 23px;
-  border-radius: 13px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border-radius: 12px;
   box-shadow:
-    0 5px 0 var(--ink),
+    0 4px 0 var(--ink),
     inset 0 2px 0 #ffffff26;
-  letter-spacing: 1.5px;
-  font-size: 12px;
+  letter-spacing: 1px;
+  font-size: 11px;
   font-weight: bold;
   transition:
-    background 0.2s,
-    transform 0.2s;
+    background 0.15s,
+    transform 0.15s;
 }
 button:hover {
   background: #486685;
   transform: translateY(-2px);
 }
 button:active {
-  transform: translateY(4px);
+  transform: translateY(3px);
   box-shadow: 0 1px 0 var(--ink);
 }
 button:focus-visible,
 input:focus-visible {
   outline: 3px solid var(--lilac);
-  outline-offset: 4px;
+  outline-offset: 3px;
 }
 button.primary {
   background: var(--mint);
@@ -69,7 +69,7 @@ button.primary:hover {
   background: #d0ffed;
 }
 button:disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: default;
 }
 main {
@@ -77,201 +77,258 @@ main {
   left: 9%;
   top: 50%;
   transform: translateY(-50%);
-  max-width: 470px;
+  width: min(420px, 84vw);
 }
 small {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: bold;
-  letter-spacing: 2.5px;
-  color: #a8b7bb;
+  letter-spacing: 2px;
+  color: #a8bec5;
 }
 h1 {
   position: relative;
-  font-family: var(--display);
-  font-weight: normal;
-  font-size: clamp(64px, 8vw, 112px);
-  line-height: 1;
+  font: normal clamp(64px, 8vw, 112px)/1 var(--display);
   letter-spacing: 2px;
+  margin: 20px 0;
   color: var(--mint);
   text-shadow:
     0 6px 0 #357b79,
     4px 9px 0 var(--ink);
-  margin: 28px 0;
 }
 h1 em {
   font-weight: normal;
-  font-style: italic;
   color: var(--lilac);
   text-shadow:
     0 6px 0 #66518c,
     4px 9px 0 var(--ink);
 }
 .star {
-  font-size: 35px;
+  font-size: 30px;
   position: absolute;
-  margin: 10px 0 0 20px;
+  margin: 12px 0 0 16px;
   color: var(--mint);
 }
 .tagline {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   color: #b9c9c9;
-  margin: 24px 0 30px;
+  margin: 22px 0;
 }
-#actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  max-width: 440px;
+#actions,
+.panelActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.homeActions .launch {
+  grid-column: span 2;
+  text-align: left;
+  font-size: 14px;
+  min-height: 56px;
+}
+.homeActions .primary {
+  min-height: 64px;
+}
+.homeActions button[data-icon]::before {
+  content: attr(data-icon);
+  display: inline-block;
+  width: 25px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+#actions input,
+.nameLabel input {
+  background: #0c212d;
+  border: 1px solid #91b8b54d;
+  border-radius: 6px;
+  color: #edf8f5;
+  padding: 10px 12px;
+  width: 100%;
+  min-width: 0;
 }
 #actions input {
-  background: #102632;
-  border: 1px solid #799697;
-  color: #fff5df;
-  letter-spacing: 6px;
-  border-radius: 4px;
-  width: 130px;
+  letter-spacing: 5px;
   text-align: center;
   text-transform: uppercase;
 }
 #status {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--mint);
   line-height: 1.6;
-  max-width: 360px;
+  margin: 18px 0 0;
 }
 footer {
   position: absolute;
-  bottom: 20px;
-  left: 4%;
+  top: 20px;
   right: 4%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: #97acb7;
+  flex-direction: column-reverse;
+  gap: 9px;
+  align-items: flex-end;
 }
 footer div {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
-footer button {
-  min-height: 44px;
-  padding: 9px 12px;
+#hint {
   font-size: 9px;
-  background: #10232cbb;
+  letter-spacing: 1px;
+  color: var(--mint);
+}
+footer button,
+[data-sound] {
+  display: inline-grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  padding: 12px;
+  flex-shrink: 0;
+}
+button svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 #hud {
   position: absolute;
-  top: 26px;
+  top: 16px;
   left: 4%;
-  right: 4%;
+  right: calc(4% + 134px);
   display: none;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 22px;
+  padding: 12px 18px;
+  background: #102631e8;
+  border: 1px solid #789d9d45;
+  border-radius: 16px;
+  box-shadow: 0 4px 0 #071b25;
   pointer-events: none;
 }
 #hud strong {
   display: block;
-  font-size: 20px;
+  font-size: 21px;
+  line-height: 1.15;
   letter-spacing: 1px;
-  margin-top: 7px;
+  margin-top: 5px;
 }
-#hud > div:first-child {
+.mission {
   border-left: 3px solid var(--mint);
-  padding: 7px 12px;
-  background: #10232c80;
-  border-radius: 8px;
+  padding-left: 12px;
+}
+.mission small {
+  font-size: 8px;
+}
+#progress {
+  display: block;
+  font-size: 9px;
+  color: #93adb5;
+  margin-top: 6px;
+  letter-spacing: 0.7px;
+}
+.collection {
+  min-width: 245px;
+}
+.hudLabel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.hudLabel small {
+  font-size: 8px;
 }
 #spectrum {
   display: flex;
-  gap: 7px;
+  justify-content: space-between;
+  gap: 6px;
 }
 #spectrum span {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border: 2px solid currentColor;
   border-radius: 50%;
-  opacity: 0.4;
+  opacity: 0.3;
   font-size: 17px;
 }
 #spectrum span.lit {
   opacity: 1;
-  box-shadow:
-    0 3px 0 var(--ink),
-    0 0 15px #ffffff30;
+  background: #edf8f515;
+  box-shadow: 0 0 10px currentColor;
+}
+.readouts {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 22px;
 }
 .score {
   text-align: right;
+  min-width: 100px;
+}
+#hud .score strong {
+  font: normal 26px var(--display);
+  color: var(--lilac);
 }
 .health {
-  min-width: 125px;
+  min-width: 118px;
 }
 .health small {
-  font-size: 9px;
+  display: block;
+  font-size: 8px;
+}
+.health span {
+  float: right;
 }
 .health i {
   display: block;
-  height: 11px;
-  background: #ffffff25;
-  margin-top: 12px;
-  border-radius: 6px;
-  border: 2px solid var(--ink);
+  height: 12px;
+  background: #071b25;
+  border-radius: 7px;
+  margin-top: 9px;
+  padding: 2px;
   overflow: hidden;
 }
 .health b {
   display: block;
   height: 100%;
+  border-radius: 5px;
   background: var(--mint);
-  transition: width 0.15s;
-}
-.health span {
-  float: right;
 }
 #toast {
   position: absolute;
-  top: 20%;
+  top: 23%;
   left: 10%;
   width: 80%;
   text-align: center;
   color: var(--mint);
-  font-family: var(--display);
+  font: normal clamp(22px, 3vw, 36px) var(--display);
   letter-spacing: 2px;
-  font-size: clamp(20px, 3vw, 36px);
   pointer-events: none;
   text-shadow: 0 3px 0 #071827;
   white-space: pre-line;
 }
 body.playing #hud {
-  display: flex;
+  display: grid;
 }
-body.playing main {
-  display: none;
-}
+body.playing main,
 body:not(.playing) #pause {
   display: none;
 }
 body:has(dialog[open]) footer {
   visibility: hidden;
 }
-.resultSound {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  border: 0;
-  background: transparent;
-  opacity: 0.65;
-}
 dialog {
   color: #edf8f5;
-  background: #142b38f5;
+  background: #142b38fa;
   border: 3px solid #71989f;
   border-radius: 22px;
-  padding: 32px;
+  padding: 30px;
   width: min(440px, 92vw);
   max-height: 90dvh;
   overflow: auto;
@@ -285,84 +342,79 @@ dialog::backdrop {
   background: #06152180;
   backdrop-filter: blur(3px);
 }
-dialog h2 {
-  font: normal 40px/1.12 var(--display);
+dialog h2,
+#lesson h2 {
+  font: normal 36px/1.1 var(--display);
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: 0 3px 0 #081b28;
-  margin: 0 0 20px;
+  margin: 0 0 18px;
   color: var(--mint);
 }
 .panelBody p {
-  font-size: 13px;
+  font-size: 12px;
   color: #adc2c6;
   line-height: 1.6;
 }
 .panelActions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 9px;
   margin-top: 24px;
 }
-[data-sound] {
-  display: inline-grid;
-  place-items: center;
-  min-width: 46px;
-  padding: 10px;
+.panelActions .primary {
+  grid-column: span 2;
+  min-height: 56px;
 }
-[data-sound] svg {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.resultSound {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  border: 0;
+  background: #102631;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 10px;
+  box-shadow: none;
 }
 .results {
   top: auto;
   bottom: 6%;
-  width: min(550px, 92vw);
-  padding: 26px 30px;
+  width: min(530px, 92vw);
+  padding: 26px;
 }
 .results::backdrop {
   background: transparent;
   backdrop-filter: none;
 }
 .results h2 {
-  font-size: clamp(30px, 4vw, 44px);
-  margin-bottom: 22px;
-  padding-right: 26px;
+  font-size: clamp(28px, 4vw, 40px);
+  padding-right: 25px;
 }
 .resultsStats {
   display: flex;
   justify-content: space-around;
-  gap: 20px;
+  gap: 16px;
 }
 .resultsStats strong {
-  font-size: 23px;
-  font-weight: normal;
+  font: normal 24px var(--display);
+  color: var(--lilac);
   display: block;
   margin-bottom: 7px;
-  color: var(--lilac);
-  font-family: var(--display);
   letter-spacing: 1px;
 }
 .resultsStats small {
   font-size: 8px;
 }
 .customization {
-  padding: 24px 28px;
+  padding: 22px 26px;
 }
 .customization h2 {
-  font-size: 32px;
+  font-size: 30px;
   margin: 0;
 }
 #avatar {
   position: static;
-  width: 250px;
-  height: 142px;
+  width: 220px;
+  height: 125px;
   display: block;
   margin: 0 auto;
   opacity: 1;
@@ -371,55 +423,37 @@ dialog h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 11px;
   color: #adc2c6;
-  gap: 20px;
+  gap: 18px;
 }
 .nameLabel input {
-  background: #0c212d;
-  border: 1px solid #91b8b54d;
-  border-radius: 5px;
-  color: #fff5df;
-  padding: 10px 12px;
   width: 220px;
-  min-width: 0;
-  font: inherit;
 }
 fieldset {
   border: 0;
   padding: 0;
-  margin: 15px 0;
+  margin: 14px 0;
   display: flex;
   justify-content: center;
   gap: 4px;
   flex-wrap: wrap;
 }
 legend {
-  font-size: 11px;
+  font-size: 10px;
   color: #adc2c6;
   margin-bottom: 8px;
   text-align: left;
 }
 fieldset button {
-  min-width: 40px;
-  min-height: 40px;
-  padding: 8px;
-  font-size: 10px;
+  min-width: 38px;
+  min-height: 38px;
+  padding: 7px;
+  font-size: 9px;
   letter-spacing: 0;
 }
 .swatch {
   background: transparent;
-  position: relative;
-}
-.styleChoice {
-  padding: 4px;
-}
-.styleChoice canvas {
-  position: static;
-  display: block;
-  width: 80px;
-  height: 45px;
-  opacity: 1 !important;
 }
 .swatch::after {
   content: "";
@@ -433,13 +467,23 @@ fieldset button[aria-pressed="true"] {
   border-color: var(--mint);
   background: #ffffff18;
 }
+.styleChoice {
+  padding: 4px;
+}
+.styleChoice canvas {
+  position: static;
+  display: block;
+  width: 80px;
+  height: 45px;
+  opacity: 1 !important;
+}
 #lesson {
   position: absolute;
   bottom: 9%;
   left: 50%;
   transform: translateX(-50%);
   width: min(430px, 90vw);
-  padding: 18px 22px;
+  padding: 16px 20px;
   background: #102632ed;
   border: 2px solid #71989f;
   border-radius: 15px;
@@ -447,14 +491,11 @@ fieldset button[aria-pressed="true"] {
   text-align: center;
 }
 #lesson h2 {
-  font: normal 25px var(--display);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--mint);
-  margin: 9px 0;
+  font-size: 24px;
+  margin: 8px 0;
 }
 #lesson p {
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.5;
   color: #b7cbd0;
   margin: 8px 0;
@@ -464,7 +505,7 @@ fieldset button[aria-pressed="true"] {
   border: 0;
   background: transparent;
   padding: 8px;
-  min-height: 36px;
+  min-height: 32px;
   color: #9bb3bd;
   box-shadow: none;
 }
@@ -476,74 +517,147 @@ fieldset button[aria-pressed="true"] {
     transition: none !important;
   }
 }
-@media (max-width: 650px) {
-  main {
-    left: 7%;
-    max-width: 86%;
-    top: 46%;
-  }
-  h1 {
-    font-size: 76px;
-  }
-  .tagline {
-    font-size: 17px;
-    margin: 20px 0;
-  }
+@media (max-width: 1050px) {
   #hud {
-    top: 18px;
+    gap: 16px;
+  }
+  .readouts {
+    flex-direction: column;
     gap: 8px;
-    flex-wrap: wrap;
-  }
-  #hud strong {
-    font-size: 15px;
-  }
-  #hud > div:first-child {
-    flex: 1;
-  }
-  #spectrum {
-    order: 4;
-    width: 100%;
-    justify-content: center;
-    gap: 10px;
-  }
-  #spectrum span {
-    width: 25px;
-    height: 25px;
+    align-items: flex-end;
   }
   .health {
-    min-width: 95px;
+    min-width: 105px;
   }
-  small {
-    font-size: 8px;
+  #hud strong {
+    font-size: 18px;
+  }
+}
+@media (max-width: 650px) {
+  main {
+    left: 8%;
+    top: 48%;
+  }
+  h1 {
+    font-size: 70px;
+  }
+  .tagline {
+    font-size: 12px;
+    margin: 18px 0;
+  }
+  .homeActions .launch {
+    min-height: 50px;
+    font-size: 12px;
+  }
+  .homeActions .primary {
+    min-height: 56px;
+  }
+  #actions {
+    gap: 10px;
   }
   footer {
-    bottom: 12px;
+    top: 22px;
+    right: 24px;
   }
-  footer > span {
-    max-width: 45%;
+  footer button,
+  footer [data-sound] {
+    width: 46px;
+    height: 46px;
+    min-height: 46px;
+    padding: 10px;
+  }
+  footer div {
+    gap: 8px;
+  }
+  #hud {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 12px;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+  .mission {
+    grid-column: span 2;
+    padding-right: 100px;
+  }
+  .mission strong {
+    font-size: 18px !important;
+  }
+  .mission small {
+    font-size: 7px;
+  }
+  #progress {
     font-size: 8px;
-    line-height: 1.6;
+    margin-top: 4px;
+  }
+  .collection {
+    min-width: 0;
+    grid-column: 1;
+  }
+  .hudLabel {
+    margin-bottom: 6px;
+  }
+  #spectrum {
+    gap: 3px;
+  }
+  #spectrum span {
+    width: 23px;
+    height: 23px;
+    font-size: 14px;
+  }
+  .readouts {
+    display: contents;
+  }
+  .score {
+    grid-row: 2;
+    grid-column: 2;
+    min-width: 80px;
+  }
+  #hud .score strong {
+    font-size: 23px;
+  }
+  .score small {
+    font-size: 7px;
+  }
+  .health {
+    grid-column: span 2;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .health small {
+    min-width: 90px;
+  }
+  .health i {
+    flex: 1;
+    margin: 0;
+    height: 10px;
   }
   #toast {
-    top: 24%;
-  }
-  footer button {
-    font-size: 8px;
-    padding: 8px;
-  }
-  body:not(.playing) canvas {
-    opacity: 0.65;
+    top: 28%;
   }
   .results {
-    bottom: 9%;
+    bottom: 7%;
     padding: 24px 18px;
   }
+  .results h2 {
+    font-size: 29px;
+  }
+  .panelActions {
+    gap: 10px;
+  }
+  .customization {
+    padding: 20px;
+  }
+  .customization h2 {
+    font-size: 28px;
+  }
   #lesson {
-    bottom: 9%;
     padding: 12px 18px;
   }
   #lesson h2 {
-    font-size: 22px;
+    font-size: 21px;
   }
 }
 @media (max-height: 500px) {
@@ -551,21 +665,46 @@ fieldset button[aria-pressed="true"] {
     top: 46%;
   }
   h1 {
-    font-size: 60px;
-    margin: 12px 0;
+    font-size: 52px;
+    margin: 10px 0;
   }
   .tagline {
-    font-size: 15px;
-    margin: 12px 0;
+    margin: 10px 0;
+    font-size: 11px;
+  }
+  .homeActions .launch,
+  .homeActions .primary {
+    min-height: 42px;
+    padding: 8px 16px;
+  }
+  #actions {
+    gap: 8px;
+  }
+  #status {
+    margin-top: 10px;
   }
   footer {
-    bottom: 8px;
-  }
-  #hud {
     top: 12px;
   }
-  #toast {
-    top: 25%;
+  #hud {
+    top: 8px;
+    padding: 8px 12px;
+  }
+  .readouts {
+    flex-direction: row;
+  }
+  .collection {
+    min-width: 210px;
+  }
+  #spectrum span {
+    width: 25px;
+    height: 25px;
+  }
+  .mission strong {
+    font-size: 16px !important;
+  }
+  .health {
+    min-width: 90px;
   }
   dialog {
     padding: 18px 24px;
@@ -578,7 +717,7 @@ fieldset button[aria-pressed="true"] {
     margin: 0;
   }
   .results h2 {
-    font-size: 28px;
+    font-size: 26px;
   }
   .customization #avatar {
     height: 80px;

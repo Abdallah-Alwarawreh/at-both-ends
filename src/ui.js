@@ -10,7 +10,18 @@ export function buttons(items, target = document.getElementById("actions")) {
   for (let [label, fn, primary] of items) {
     let b = document.createElement("button");
     b.textContent = label;
-    if (primary) b.className = "primary";
+    b.setAttribute("aria-label", label);
+    let icon = {
+      "PLAY SOLO": "▶",
+      "PLAY ONLINE": "↔",
+      ENDLESS: "∞",
+      "YOUR UNICORN": "✦",
+      "HOW TO PLAY": "?",
+    }[label];
+    if (icon) b.dataset.icon = icon;
+    if (["PLAY SOLO", "PLAY ONLINE", "ENDLESS"].includes(label))
+      b.classList.add("launch");
+    if (primary) b.classList.add("primary");
     b.onclick = () => {
       unlock();
       fn();
@@ -36,7 +47,7 @@ export function showPanel(title, content, items, close = () => {}, kind = "") {
   panel.querySelector("h2").textContent = title;
   panel.querySelector(".panelBody").innerHTML = content;
   buttons(items, panel.querySelector(".panelActions"));
-  if (kind === "results") {
+  if (kind === "results" || title === "Paused") {
     let sound = document.createElement("button");
     sound.dataset.sound = "";
     sound.className = "resultSound";
@@ -84,7 +95,7 @@ export function customize(profile, save) {
   for (let [key, label, values] of [
     ["coat", "Coat", COATS],
     ["mane", "Mane", COLORS],
-    ["charm", "Style", ["Plain", "Star", "Flower"]],
+    ["charm", "Style", ["Plain", "Star", "Flower", "Moon", "Bolt", "Heart"]],
   ]) {
     let row = document.createElement("fieldset"),
       legend = document.createElement("legend");
