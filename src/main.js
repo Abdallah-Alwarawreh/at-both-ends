@@ -131,6 +131,8 @@ function title() {
   ]);
 }
 function online() {
+  $("menu").querySelector("h1").textContent = "PLAY ONLINE";
+  $("menu").querySelector(".tagline").textContent = "Play together.";
   $("actions").className = "";
   screen = "lobby";
   $("status").textContent = "Play together.";
@@ -148,6 +150,11 @@ function online() {
   ]);
 }
 function lobbyButtons() {
+  if (net.room[0] === "p") {
+    $("menu").querySelector("h1").textContent = net.room.slice(1);
+    $("menu").querySelector(".tagline").textContent =
+      "ROOM CODE · SHARE WITH A FRIEND";
+  }
   buttons([
     ["PLAY SOLO", () => start(), true],
     [
@@ -239,14 +246,8 @@ function setLesson(stage) {
   const copy = [
     ["Move your end", "WASD / arrows · touch & drag"],
     ["Red needs red", "Hold the red section on the red core."],
-    [
-      "Now find blue",
-      "Rotate the rainbow. Match blue to blue.",
-    ],
-    [
-      "Restore all three",
-      "Seven colors unlock Double Rainbow.",
-    ],
+    ["Now find blue", "Rotate the rainbow. Match blue to blue."],
+    ["Restore all three", "Seven colors unlock Double Rainbow."],
   ][stage];
   $("lessonStep").textContent = stage + 1 + " / 4";
   $("lessonTitle").textContent = copy[0];

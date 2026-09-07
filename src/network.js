@@ -106,11 +106,7 @@ export class Network {
       id = raw.slice(1);
     if (prefix === "@") {
       this.id = id;
-      this.cb.status(
-        this.room[0] === "p"
-          ? "ROOM " + this.room.slice(1) + " · WAITING…"
-          : "FINDING A PARTNER…",
-      );
+      this.cb.status("FINDING A PARTNER…");
       return;
     }
     if (prefix === "+") {
