@@ -80,16 +80,10 @@ export class Network {
     this.room = room;
     this.quick = quick;
     this.cb.status("CONNECTING…");
-    let base = typeof __RELAY_URL__ !== "undefined" ? __RELAY_URL__ : "";
-    if (
-      !base &&
-      location.hostname !== "localhost" &&
-      location.hostname !== "127.0.0.1"
-    ) {
-      this.cb.status("No online relay. Solo is ready.");
-      return;
-    }
-    base ||= `ws://${location.host}/relay`;
+    let base =
+      typeof __RELAY_URL__ !== "undefined"
+        ? __RELAY_URL__
+        : `ws://${location.host}/relay`;
     try {
       this.socket = new WebSocket(base.replace(/\/$/, "") + "/" + room);
       this.socket.onmessage = (e) => this.receive(e.data);

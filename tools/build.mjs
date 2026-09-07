@@ -11,7 +11,9 @@ const bundled = await build({
   format: "iife",
   target: "es2020",
   define: {
-    __RELAY_URL__: JSON.stringify(process.env.RELAY_URL || ""),
+    __RELAY_URL__: JSON.stringify(
+      process.env.RELAY_URL || "wss://relay.js13kgames.com/at-both-ends",
+    ),
     __DEV__: "false",
   },
 });

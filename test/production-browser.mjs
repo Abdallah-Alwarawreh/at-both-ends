@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const errors = [];
+const room = Array.from({ length: 4 }, () => String.fromCharCode(65 + Math.floor(Math.random() * 26))).join("");
 try {
   const pages = [await browser.newPage(), await browser.newPage()];
   for (const page of pages) {
@@ -12,7 +13,9 @@ try {
     await page.getByRole("button", { name: "Heart", exact: true }).click();
     await page.getByRole("button", { name: "DONE" }).click();
     await page.getByRole("button", { name: "PLAY ONLINE", exact: true }).click();
-    await page.getByRole("button", { name: "QUICK MATCH" }).click();
+    await page.getByRole("button", { name: "PRIVATE ROOM" }).click();
+    await page.getByRole("textbox").fill(room);
+    await page.getByRole("button", { name: "JOIN", exact: true }).click();
   }
   for (const page of pages) {
     await page.waitForFunction(() => document.body.classList.contains("playing"));

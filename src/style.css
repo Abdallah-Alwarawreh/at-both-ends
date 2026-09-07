@@ -120,9 +120,15 @@ h1 em {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
+.homeActions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .homeActions .launch {
   grid-column: span 2;
-  text-align: center;
+  text-align: left;
+  justify-content: flex-start;
   font-size: 14px;
   min-height: 56px;
 }
@@ -134,7 +140,6 @@ h1 em {
   display: inline-block;
   width: 25px;
   font-size: 18px;
-  vertical-align: middle;
 }
 #actions input,
 .nameLabel input {

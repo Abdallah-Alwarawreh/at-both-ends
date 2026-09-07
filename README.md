@@ -43,14 +43,14 @@ npm run build
 
 Outputs `dist/index.html` (self-contained, including CSS and JavaScript) and `dist/at-both-ends.zip`. Terser, build-only internal-name aliases, Roadroller, and Zopfli compress the game; the decoder uses a 128MB memory budget. The build compares packed and plain output, reports actual ZIP bytes, and fails over 13,312 bytes. Roadroller optimization level defaults to 2; `OPTIMIZE=1` speeds up development builds but may exceed the size limit. Readable source and development tools are not included in the ZIP. No runtime libraries, images, fonts, or audio files are fetched.
 
-For competition online play, set the official game relay base URL before building:
+Production builds default to `wss://relay.js13kgames.com/at-both-ends`. Override the relay base URL if needed:
 
 ```powershell
 $env:RELAY_URL = 'wss://YOUR-ASSIGNED-GAME-RELAY'
 npm run build
 ```
 
-The adapter appends `/q0`–`/q7` or `/pABCD` to the base URL. Verify subroom routing against the assigned endpoint. An unconfigured production build offers Solo and explains online unavailability. No account credentials are included in source.
+The adapter appends `/q0`–`/q7` or `/pABCD` to the base URL. The optional deeply nested example suffix is not required; game-specific rooms remain under `/at-both-ends`. Two production clients were verified through a private subroom on the public relay, including disconnect recovery. Development still uses the local relay. No account credentials are included in source.
 
 Protocol follows the [official 2026 relay documentation](https://js13kgames.com/2026/online): `@id`, `+id`, `-id` notifications, and `@id|payload` direct messages. The local relay is for development only; do not deploy it as an authenticated public service.
 
@@ -76,7 +76,6 @@ The campaign test accelerates progression by restoring targets through a develop
 
 ## Remaining external validation
 
-- Assign and test the actual competition relay, including its subroom paths.
 - Play on physical phones and between genuinely separate networks. Browser mobile emulation is not hardware testing.
 - Tune campaign duration and difficulty from human playtesting (target: 5–7 minutes).
 - Wavedash SDK, leaderboard, and achievement integration is deferred; no platform credentials or confirmed challenge requirements were supplied.
