@@ -157,20 +157,28 @@ h1 em {
   line-height: 1.6;
   margin: 18px 0 0;
 }
-footer {
+header {
   position: absolute;
-  top: 20px;
+  top: 16px;
+  left: 4%;
   right: 4%;
   display: flex;
-  flex-direction: column-reverse;
-  gap: 9px;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+footer {
+  position: relative;
 }
 footer div {
   display: flex;
   gap: 10px;
 }
 #hint {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
   font-size: 9px;
   letter-spacing: 1px;
   color: var(--mint);
@@ -179,9 +187,9 @@ footer button,
 [data-sound] {
   display: inline-grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
-  padding: 12px;
+  width: 48px;
+  height: 48px;
+  padding: 10px;
   flex-shrink: 0;
 }
 button svg {
@@ -194,10 +202,8 @@ button svg {
   stroke-linejoin: round;
 }
 #hud {
-  position: absolute;
-  top: 16px;
-  left: 4%;
-  right: calc(4% + 134px);
+  flex: 1;
+  min-width: 0;
   display: none;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -215,10 +221,6 @@ button svg {
   line-height: 1.15;
   letter-spacing: 1px;
   margin-top: 5px;
-}
-.mission {
-  border-left: 3px solid var(--mint);
-  padding-left: 12px;
 }
 .mission small {
   font-size: 8px;
@@ -555,31 +557,28 @@ fieldset button[aria-pressed="true"] {
   #actions {
     gap: 10px;
   }
-  footer {
-    top: 22px;
-    right: 24px;
+  header {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    display: block;
   }
-  footer button,
-  footer [data-sound] {
-    width: 46px;
-    height: 46px;
-    min-height: 46px;
-    padding: 10px;
+  footer {
+    position: absolute;
+    top: 12px;
+    right: 12px;
   }
   footer div {
     gap: 8px;
   }
   #hud {
-    top: 12px;
-    left: 12px;
-    right: 12px;
     padding: 12px;
     grid-template-columns: 1fr auto;
     gap: 12px;
   }
   .mission {
     grid-column: span 2;
-    padding-right: 100px;
+    padding-right: 112px;
   }
   .mission strong {
     font-size: 18px !important;
@@ -683,11 +682,10 @@ fieldset button[aria-pressed="true"] {
   #status {
     margin-top: 10px;
   }
-  footer {
-    top: 12px;
+  header {
+    top: 8px;
   }
   #hud {
-    top: 8px;
     padding: 8px 12px;
   }
   .readouts {
